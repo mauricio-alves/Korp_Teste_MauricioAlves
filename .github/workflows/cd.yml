@@ -3,6 +3,10 @@ name: CD
 on:
   push:
     branches: ["main"]
+    paths:
+      - "backend/ApiGateway/**"
+      - "backend/InventoryService/**"
+      - "backend/BillingService/**"
   workflow_dispatch:
 
 env:
