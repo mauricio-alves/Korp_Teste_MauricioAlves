@@ -92,8 +92,27 @@ public abstract class BaseProvider
             Logger.LogError("[GATEWAY ERROR] {ServiceName} returned {StatusCode}: {ErrorBody}", 
                 serviceName, response.StatusCode, errorBody);
 
-            // Sanitize message for the client while keeping the internal log detailed
             var message = $"{serviceName} returned {(int)response.StatusCode} ({response.StatusCode}).";
+
+            if (!string.IsNullOrWhiteSpace(errorBody))
+            {
+                try 
+                {
+                    using var doc = System.Text.Json.JsonDocument.Parse(errorBody);
+                    if (doc.RootElement.ValueKind == System.Text.Json.JsonValueKind.Object)
+                    {
+                        var detail = doc.RootElement.TryGetProperty("detail", out var pDetail) ? pDetail.GetString() : null;
+                        var title = doc.RootElement.TryGetProperty("title", out var pTitle) ? pTitle.GetString() : null;
+                        
+                        var technicalDetail = detail ?? title;
+                        if (!string.IsNullOrWhiteSpace(technicalDetail))
+                        {
+                            message = technicalDetail;
+                        }
+                    }
+                }
+                catch { /* Ignore parse errors and use generic message */ }
+            }
 
             throw new HttpRequestException(message, null, response.StatusCode);
         }

@@ -46,3 +46,179 @@ body {
   max-width: 1440px;
   margin: 0 auto;
 }
+
+/* Korp Brutalist Design System Utilities */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+}
+.g-2 {
+  padding: 0.5rem;
+}
+.align-items-end {
+  align-items: flex-end;
+}
+.col-md-3 {
+  flex: 0 0 auto;
+  width: 25%;
+  padding: 0 0.5rem;
+}
+.col-md-4 {
+  flex: 0 0 auto;
+  width: 33.333%;
+  padding: 0 0.5rem;
+}
+.col-md-6 {
+  flex: 0 0 auto;
+  width: 50%;
+  padding: 0 0.5rem;
+}
+.col-12 {
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 0 0.5rem;
+}
+.h-100 {
+  height: 100%;
+}
+.w-100 {
+  width: 100% !important;
+}
+
+.card {
+  background-color: var(--k-onyx-mid);
+  border: 1px solid var(--k-onyx-light);
+  padding: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.p-3 {
+  padding: 1rem !important;
+}
+.p-5 {
+  padding: 3rem !important;
+}
+.py-3 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.mb-1 {
+  margin-bottom: 0.25rem !important;
+}
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.bg-dark-soft {
+  background-color: #1a1a1a !important;
+}
+.border-primary-vibrant {
+  border-color: var(--k-acid-green) !important;
+}
+.text-primary-vibrant {
+  color: var(--k-acid-green) !important;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+.tiny-text {
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+}
+.bold {
+  font-weight: 700;
+}
+.opacity-25 {
+  opacity: 0.25;
+}
+.opacity-50 {
+  opacity: 0.5;
+}
+.display-block {
+  display: block;
+}
+.text-center {
+  text-align: center !important;
+}
+.italic {
+  font-style: italic;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  th {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--k-onyx-light);
+    opacity: 0.6;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+  }
+  td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--k-onyx-light);
+  }
+}
+.table-dark {
+  background-color: transparent;
+  color: var(--k-white-core);
+}
+.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+.align-middle {
+  vertical-align: middle !important;
+}
+
+.k-input {
+  background-color: var(--k-onyx-dark);
+  border: 1px solid var(--k-onyx-light);
+  color: var(--k-white-core);
+  padding: 0.6rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  &:focus {
+    border-color: var(--k-acid-green);
+  }
+}
+
+/* Global Utilities */
+.k-btn-primary {
+  background-color: var(--k-acid-green);
+  color: #000;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  &:hover:not(:disabled) {
+    background-color: var(--k-acid-green-hover);
+  }
+}
