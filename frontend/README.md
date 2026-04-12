@@ -1,43 +1,63 @@
-# Korp Note System - Frontend
+# Korp Note System | Frontend & UX/UI
 
-Este é o portal de operação do sistema Korp, desenvolvido com **Angular 18** seguindo as melhores práticas de UI/UX e arquitetura reativa moderna.
-
-## 🚀 Diferenciais Tecnológicos
-
-- **Angular 18 (Standalone)**: Arquitetura sem módulos (No-NgModule), reduzindo complexidade e melhorando o tree-shaking.
-- **State Management com Signals**: Utilização de `signals` e `computed` para gerenciamento de estado granular e reativo, eliminando problemas comuns de detecção de mudanças e garantindo performance superior.
-- **Atomic Components**: Interface modularizada (Ex: `ItemSelector`, `ItemsGrid`, `InvoiceSummary`) para máxima reutilização e simplicidade (SRP).
-- **Premium UI**: Design focado em produtividade, utilizando uma paleta de cores harmoniosa, tipografia moderna (Inter) e feedback visual em tempo real.
-
-## 📁 Estrutura do Projeto
-
-```bash
-src/app/
-├── core/               # Singleton Services, Models e Guards globais
-│   ├── models/         # Interfaces de domínio (Product, Invoice, AI)
-│   └── services/       # Proxy services para integração com API
-├── features/           # Módulos de negócio (Faturamento, Catálogo, AI)
-│   ├── invoices/       # Gestão de Notas com State Service via Signals
-│   ├── products/       # Gestão de Catálogo de Produtos
-│   └── ai-assistant/   # Integração com Korp AI (Gemini)
-└── shared/             # Componentes, Pipes e Diretivas reutilizáveis
-```
-
-## 🛠 Comandos Disponíveis
-
-- **`npm start`**: Inicia o servidor de desenvolvimento em `http://localhost:4200/`.
-- **`npm test`**: Executa a suíte de testes unitários via Karma/Jasmine.
-- **`npm run build`**: Gera o pacote de produção otimizado na pasta `dist/`.
-- **`npm run lint`**: Executa a auditoria de estilo/estática de código.
-
-## 🧪 Testes e Qualidade
-
-O projeto utiliza o **Testing Pyramid** para garantir estabilidade:
-
-- **Unit Tests**: Validação lógica de serviços e transformadores.
-- **Component Tests**: Validação de renderização e interações de sub-componentes.
-- **Validation**: O pipeline de CI no GitHub bloqueia automaticamente merges se a cobertura de testes falhar ou houver quebra de build.
+O frontend do **Korp Note System** é uma aplicação **Angular 18** de alta performance, desenhada para ser intuitiva, rápida e visualmente impactante.
 
 ---
 
-**Tracked by Antigravity AI**
+## Reatividade com Angular Signals
+
+Este projeto abandona o gerenciamento de estado complexo e verboso em favor dos **Angular Signals**.
+
+- **InvoiceStateService**: Atua como o "Single Source of Truth" para o fluxo de faturamento.
+- **Computed State**: Totais e resumos financeiros são recalculados automaticamente via `computed()`, garantindo precisão sem overhead de processamento.
+- **Fine-grained Updates**: Apenas os elementos que realmente sofreram alteração são re-renderizados pelo Angular.
+
+---
+
+## Design System Customizado (Premium UI)
+
+Não utilizamos frameworks CSS genéricos. O sistema utiliza **Vanilla CSS** com uma arquitetura de tokens modernos:
+
+1. **Vibrant Dark Mode**: Baseado em tons de carvão e cinza-azulado com acentos em violeta vibrante e ciano.
+2. **Glassmorphism**: Uso de transparências e `backdrop-filter` para dar profundidade à interface.
+3. **Typography**: Foco em legibilidade com a fonte **Inter**, utilizando pesos variados para criar hierarquia visual clara.
+4. **Grid Layout**: Sistema de grid customizado para o painel de faturamento, separando a seleção de itens do checkout financeiro de forma elegante.
+
+---
+
+## Korp.AI Terminal
+
+A interface conta com um painel de IA integrado que se comporta como um terminal de diagnóstico:
+
+- **Prompt Contextual**: A IA conhece os produtos disponíveis no estoque.
+- **Sugestões Inteligentes**: Auxilia o operador a montar notas fiscais baseadas em descrições de linguagem natural.
+- **Segurança**: Interpolação de texto segura para evitar execução de scripts maliciosos injetados por LLMs.
+
+---
+
+## Componentização (SRP)
+
+O fluxo principal de faturamento foi decomposto em componentes especializados com responsabilidade única:
+
+- `ItemSelector`: Busca e seleção de SKUs.
+- `ItemsGrid`: Listagem reativa e remoção de itens.
+- `InvoiceSummary`: Resumo financeiro e gatilho de fechamento da nota.
+- `AiPanel`: Interface de conversa com o Gemini.
+
+---
+
+## Como Executar
+
+```bash
+# Instalar dependências
+npm install
+
+# Iniciar ambiente de desenvolvimento
+npm start
+```
+
+Acesse em: `http://localhost:4200`
+
+---
+
+**Desenvolvido com Antigravity AI**

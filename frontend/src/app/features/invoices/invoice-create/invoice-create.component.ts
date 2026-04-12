@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { InvoiceService } from '../../../core/services/invoice.service';
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../core/models/product.model';
+import { CreateInvoiceDto } from '../../../core/models/invoice.model';
 import { InvoiceStateService } from '../services/invoice-state.service';
 import { ItemSelectorComponent } from '../components/item-selector.component';
 import { ItemsGridComponent } from '../components/items-grid.component';
@@ -40,7 +41,7 @@ export class InvoiceCreateComponent implements OnInit {
   submitInvoice() {
     const items = this.state.items();
     if (items.length > 0) {
-      const payload = {
+      const payload: CreateInvoiceDto = {
         items: items.map((i) => ({
           productId: i.productId,
           productCode: i.productCode,
@@ -48,7 +49,7 @@ export class InvoiceCreateComponent implements OnInit {
           quantity: i.quantity,
         })),
       };
-      this.invoiceService.createInvoice(payload as any).subscribe(() => {
+      this.invoiceService.createInvoice(payload).subscribe(() => {
         this.state.clear();
         this.router.navigate(['/invoices']);
       });

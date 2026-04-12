@@ -10,8 +10,8 @@
     <div class="terminal-header">KORP.AI_TERMINAL v1.0 <span class="blink">_</span></div>
 
     <div class="terminal-body">
-      <div class="output-text">
-        {{ responseOutput || '> INIT: CONEXÃO ESTABELECIDA. AGUARDANDO COMANDO DE VARREDURA DO OPERADOR.' }}
+      <div class="output-text"
+        [innerHTML]="responseOutput || '> INIT: CONEXÃO ESTABELECIDA. AGUARDANDO COMANDO DE VARREDURA DO OPERADOR.'">
       </div>
     </div>
 

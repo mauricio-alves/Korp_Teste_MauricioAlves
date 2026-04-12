@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace ApiGateway.Providers;
 
@@ -7,11 +8,13 @@ public abstract class BaseProvider
 {
     protected readonly HttpClient HttpClient;
     protected readonly JsonSerializerOptions JsonOptions;
+    protected readonly ILogger Logger;
 
-    protected BaseProvider(IHttpClientFactory factory, string clientName)
+    protected BaseProvider(IHttpClientFactory factory, string clientName, ILogger logger)
     {
         HttpClient = factory.CreateClient(clientName);
         JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        Logger = logger;
     }
 
     protected async Task<T> GetAsync<T>(string path)
@@ -78,8 +81,15 @@ public abstract class BaseProvider
         {
             var errorBody = await response.Content.ReadAsStringAsync();
             var serviceName = GetType().Name.Replace("Provider", "Service");
-            Console.WriteLine($"[GATEWAY ERROR] {serviceName} returned {response.StatusCode}: {errorBody}");
-            response.EnsureSuccessStatusCode(); 
+            
+            Logger.LogError("[GATEWAY ERROR] {ServiceName} returned {StatusCode}: {ErrorBody}", 
+                serviceName, response.StatusCode, errorBody);
+
+            var message = string.IsNullOrWhiteSpace(errorBody)
+                ? $"{serviceName} returned {(int)response.StatusCode} ({response.StatusCode})."
+                : $"{serviceName} returned {(int)response.StatusCode} ({response.StatusCode}): {errorBody}";
+
+            throw new HttpRequestException(message, null, response.StatusCode);
         }
     }
 }

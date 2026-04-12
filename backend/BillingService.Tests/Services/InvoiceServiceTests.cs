@@ -98,6 +98,28 @@ public class InvoiceServiceTests
     }
 
     [Fact]
+    public async Task CreateAsync_WithInvalidQuantity_ThrowsArgumentException()
+    {
+        var dto = new CreateInvoiceDto(
+        [
+            new AddInvoiceItemDto(Guid.NewGuid(), "P1", "D1", 0)
+        ]);
+
+        await Assert.ThrowsAsync<ArgumentException>(() => _sut.CreateAsync(dto));
+    }
+
+    [Fact]
+    public async Task CreateAsync_WithEmptyProductId_ThrowsArgumentException()
+    {
+        var dto = new CreateInvoiceDto(
+        [
+            new AddInvoiceItemDto(Guid.Empty, "P1", "D1", 1)
+        ]);
+
+        await Assert.ThrowsAsync<ArgumentException>(() => _sut.CreateAsync(dto));
+    }
+
+    [Fact]
     public async Task PrintAsync_WhenDebitFails_ExecutesRollbackAndThrows()
     {
         var invoiceId = Guid.NewGuid();
