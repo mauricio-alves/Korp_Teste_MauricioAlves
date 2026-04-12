@@ -28,7 +28,7 @@ public class InvoiceServiceTests
         _repositoryMock.Setup(r => r.CreateAsync(It.IsAny<Invoice>()))
             .ReturnsAsync((Invoice i) => i);
 
-        var dto = new CreateInvoiceDto(new List<AddInvoiceItemDto>());
+        var dto = new CreateInvoiceDto { Items = new List<AddInvoiceItemDto>() };
         var result = await _sut.CreateAsync(dto);
 
         Assert.Equal(5, result.Number);
@@ -100,10 +100,13 @@ public class InvoiceServiceTests
     [Fact]
     public async Task CreateAsync_WithInvalidQuantity_ThrowsArgumentException()
     {
-        var dto = new CreateInvoiceDto(
-        [
-            new AddInvoiceItemDto(Guid.NewGuid(), "P1", "D1", 0)
-        ]);
+        var dto = new CreateInvoiceDto
+        {
+            Items =
+            [
+                new AddInvoiceItemDto(Guid.NewGuid(), "P1", "D1", 0)
+            ]
+        };
 
         await Assert.ThrowsAsync<ArgumentException>(() => _sut.CreateAsync(dto));
     }
@@ -111,10 +114,13 @@ public class InvoiceServiceTests
     [Fact]
     public async Task CreateAsync_WithEmptyProductId_ThrowsArgumentException()
     {
-        var dto = new CreateInvoiceDto(
-        [
-            new AddInvoiceItemDto(Guid.Empty, "P1", "D1", 1)
-        ]);
+        var dto = new CreateInvoiceDto
+        {
+            Items =
+            [
+                new AddInvoiceItemDto(Guid.Empty, "P1", "D1", 1)
+            ]
+        };
 
         await Assert.ThrowsAsync<ArgumentException>(() => _sut.CreateAsync(dto));
     }
