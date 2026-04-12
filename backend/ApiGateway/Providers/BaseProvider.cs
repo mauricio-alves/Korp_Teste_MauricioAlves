@@ -22,7 +22,14 @@ public abstract class BaseProvider
         using var response = await HttpClient.GetAsync(path);
         await HandleErrorAsync(response);
         var content = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<T>(content, JsonOptions)!;
+        
+        var result = JsonSerializer.Deserialize<T>(content, JsonOptions);
+        if (result == null)
+        {
+            throw new InvalidOperationException($"Failed to deserialize response from {path} to type {typeof(T).Name}");
+        }
+        
+        return result;
     }
 
     protected async Task<string> GetAsync(string path)
@@ -85,9 +92,8 @@ public abstract class BaseProvider
             Logger.LogError("[GATEWAY ERROR] {ServiceName} returned {StatusCode}: {ErrorBody}", 
                 serviceName, response.StatusCode, errorBody);
 
-            var message = string.IsNullOrWhiteSpace(errorBody)
-                ? $"{serviceName} returned {(int)response.StatusCode} ({response.StatusCode})."
-                : $"{serviceName} returned {(int)response.StatusCode} ({response.StatusCode}): {errorBody}";
+            // Sanitize message for the client while keeping the internal log detailed
+            var message = $"{serviceName} returned {(int)response.StatusCode} ({response.StatusCode}).";
 
             throw new HttpRequestException(message, null, response.StatusCode);
         }

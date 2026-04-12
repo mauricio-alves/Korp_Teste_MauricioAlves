@@ -19,28 +19,33 @@ public class InvoicesController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var result = await _billing.GetAsync("/api/invoices");
-        return Content(result, "application/json");
+        return Ok(result);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = await _billing.GetAsync($"/api/invoices/{id}");
-        return Content(result, "application/json");
+        return Ok(result);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateInvoiceDto body)
     {
         var result = await _billing.PostAsync("/api/invoices", body);
-        return Content(result, "application/json");
+        return new ContentResult
+        {
+            Content = result,
+            ContentType = "application/json",
+            StatusCode = StatusCodes.Status201Created
+        };
     }
 
     [HttpPost("{id:guid}/items")]
     public async Task<IActionResult> AddItem(Guid id, [FromBody] AddInvoiceItemDto body)
     {
         var result = await _billing.PostAsync($"/api/invoices/{id}/items", body);
-        return Content(result, "application/json");
+        return Ok(result);
     }
 
     [HttpDelete("{id:guid}/items/{itemId:guid}")]
@@ -54,6 +59,6 @@ public class InvoicesController : ControllerBase
     public async Task<IActionResult> Print(Guid id)
     {
         var result = await _billing.PostAsync($"/api/invoices/{id}/print");
-        return Content(result, "application/json");
+        return Ok(result);
     }
 }

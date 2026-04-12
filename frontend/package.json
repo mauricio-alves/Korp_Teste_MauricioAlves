@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "echo 'Linter (ESLint) nao configurado para esta versao simplificada. Consulte o README para diretrizes de Clean Code.'"
+    "lint": "echo 'Linter (ESLint) nao configurado para esta versao simplificada. Consulte o README para diretrizes de Clean Code.' && exit 0"
   },
   "private": true,
   "dependencies": {

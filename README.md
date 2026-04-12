@@ -38,17 +38,24 @@ Para uma imersão técnica profunda em cada camada do sistema, consulte os guias
 
 ## Como Executar (Quick Start)
 
-A forma mais simples de subir todo o ecossistema (Base de Dados + 3 Microsserviços + Frontend) é via **Docker Compose**.
+Para subir o ecossistema completo, siga os passos abaixo:
 
-1. **Pré-requisitos**: Docker e Docker Compose instalados.
-2. **Setup**:
+1. **Backend (Microsserviços + DB)**:
+
    ```bash
    # Na raiz do projeto
    docker-compose up --build
    ```
-3. **Acesso**:
-   - Frontend: `http://localhost:4200`
-   - API Gateway: `http://localhost:5000`
+
+   _Isso iniciará o Gateway (5000), Inventory (5001), Billing (5002) e o SQL Server._
+
+2. **Frontend (Angular)**:
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
+   _O frontend estará disponível em `http://localhost:4200`._
 
 ---
 
