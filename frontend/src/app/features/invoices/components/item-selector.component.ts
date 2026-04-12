@@ -19,8 +19,14 @@ import { Product } from '../../../core/models/product.model';
         class="row g-2 align-items-end"
       >
         <div class="col-md-6">
-          <label class="tiny-text opacity-50 mb-1">Produto</label>
-          <select formControlName="productId" class="k-input w-100">
+          <label for="item-product" class="tiny-text opacity-50 mb-1"
+            >Produto</label
+          >
+          <select
+            id="item-product"
+            formControlName="productId"
+            class="k-input w-100"
+          >
             <option value="">-- SELECIONE O PRODUTO --</option>
             @for (product of products; track product.id) {
               <option [value]="product.id">
@@ -30,16 +36,20 @@ import { Product } from '../../../core/models/product.model';
           </select>
         </div>
         <div class="col-md-2">
-          <label class="tiny-text opacity-50 mb-1">Qtd.</label>
+          <label for="item-qty" class="tiny-text opacity-50 mb-1">Qtd.</label>
           <input
+            id="item-qty"
             type="number"
             formControlName="quantity"
             class="k-input w-100"
           />
         </div>
         <div class="col-md-2">
-          <label class="tiny-text opacity-50 mb-1">Preço Unit.</label>
+          <label for="item-price" class="tiny-text opacity-50 mb-1"
+            >Preço Unit.</label
+          >
           <input
+            id="item-price"
             type="number"
             formControlName="unitPrice"
             class="k-input w-100"

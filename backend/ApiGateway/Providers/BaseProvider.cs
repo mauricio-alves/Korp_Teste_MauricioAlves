@@ -17,7 +17,7 @@ public abstract class BaseProvider
         Logger = logger;
     }
 
-    protected async Task<T> GetAsync<T>(string path)
+    protected async Task<T> InternalGetAsync<T>(string path)
     {
         using var response = await HttpClient.GetAsync(path);
         await HandleErrorAsync(response);
@@ -32,14 +32,14 @@ public abstract class BaseProvider
         return result;
     }
 
-    protected async Task<string> GetAsync(string path)
+    protected async Task<string> InternalGetAsync(string path)
     {
         using var response = await HttpClient.GetAsync(path);
         await HandleErrorAsync(response);
         return await response.Content.ReadAsStringAsync();
     }
 
-    protected async Task<string> PostAsync(string path, object? body = null)
+    protected async Task<string> InternalPostAsync(string path, object? body = null)
     {
         var content = CreateContent(body);
         using var response = await HttpClient.PostAsync(path, content);
@@ -47,14 +47,14 @@ public abstract class BaseProvider
         return await response.Content.ReadAsStringAsync();
     }
 
-    protected async Task PutAsync(string path, object body)
+    protected async Task InternalPutAsync(string path, object body)
     {
         var content = CreateContent(body);
         using var response = await HttpClient.PutAsync(path, content);
         await HandleErrorAsync(response);
     }
 
-    protected async Task<string> PutWithResponseAsync(string path, object body)
+    protected async Task<string> InternalPutWithResponseAsync(string path, object body)
     {
         var content = CreateContent(body);
         using var response = await HttpClient.PutAsync(path, content);
@@ -62,14 +62,14 @@ public abstract class BaseProvider
         return await response.Content.ReadAsStringAsync();
     }
 
-    protected async Task PatchAsync(string path, object body)
+    protected async Task InternalPatchAsync(string path, object body)
     {
         var content = CreateContent(body);
         using var response = await HttpClient.PatchAsync(path, content);
         await HandleErrorAsync(response);
     }
 
-    protected async Task DeleteAsync(string path)
+    protected async Task InternalDeleteAsync(string path)
     {
         using var response = await HttpClient.DeleteAsync(path);
         await HandleErrorAsync(response);
