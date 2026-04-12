@@ -1,0 +1,48 @@
+@use "@angular/material" as mat;
+
+/* aesthetic-premium token system */
+:root {
+  --k-onyx-dark: #0a0a0a;
+  --k-onyx-mid: #141414;
+  --k-onyx-light: #222222;
+  --k-acid-green: #00ff66;
+  --k-acid-green-hover: #00cc55;
+  --k-crimson-error: #ff2a2a;
+  --k-white-core: #f5f5f5;
+  --k-gray-text: #888888;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: var(--k-onyx-dark);
+  color: var(--k-white-core);
+  font-family: "Roboto", "Inter", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Material Design Overrides for Brutalist Architecture */
+.mat-mdc-card {
+  background-color: var(--k-onyx-mid) !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--k-onyx-light) !important;
+  box-shadow: none !important;
+}
+
+.mat-mdc-button.mat-mdc-raised-button {
+  border-radius: 0 !important;
+  background-color: var(--k-acid-green) !important;
+  color: #000 !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.app-layout {
+  display: block;
+  min-height: 100vh;
+  padding: 2rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}

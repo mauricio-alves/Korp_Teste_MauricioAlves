@@ -17,7 +17,7 @@ public record InvoiceDto(
     List<InvoiceItemDto> Items
 );
 
-public record CreateInvoiceDto();
+public record CreateInvoiceDto(List<AddInvoiceItemDto> Items);
 
 public record AddInvoiceItemDto(
     Guid ProductId,

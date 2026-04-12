@@ -1,0 +1,57 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { InvoiceService } from '../../../core/services/invoice.service';
+import { ProductService } from '../../../core/services/product.service';
+import { Product } from '../../../core/models/product.model';
+import { InvoiceStateService } from '../services/invoice-state.service';
+import { ItemSelectorComponent } from '../components/item-selector.component';
+import { ItemsGridComponent } from '../components/items-grid.component';
+import { InvoiceSummaryComponent } from '../components/invoice-summary.component';
+
+@Component({
+  selector: 'app-invoice-create',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    ItemSelectorComponent,
+    ItemsGridComponent,
+    InvoiceSummaryComponent,
+  ],
+  providers: [InvoiceStateService],
+  templateUrl: './invoice-create.component.html',
+  styleUrl: './invoice-create.component.scss',
+})
+export class InvoiceCreateComponent implements OnInit {
+  private readonly invoiceService = inject(InvoiceService);
+  private readonly productService = inject(ProductService);
+  private readonly state = inject(InvoiceStateService);
+  private readonly router = inject(Router);
+
+  products: Product[] = [];
+
+  ngOnInit() {
+    this.productService
+      .getProducts()
+      .subscribe((pts: Product[]) => (this.products = pts));
+  }
+
+  submitInvoice() {
+    const items = this.state.items();
+    if (items.length > 0) {
+      const payload = {
+        items: items.map((i) => ({
+          productId: i.productId,
+          productCode: i.productCode,
+          productDescription: i.productDescription,
+          quantity: i.quantity,
+        })),
+      };
+      this.invoiceService.createInvoice(payload as any).subscribe(() => {
+        this.state.clear();
+        this.router.navigate(['/invoices']);
+      });
+    }
+  }
+}

@@ -29,10 +29,23 @@ public class InvoiceService : IInvoiceService
         return ToDto(invoice);
     }
 
-    public async Task<InvoiceDto> CreateAsync()
+    public async Task<InvoiceDto> CreateAsync(CreateInvoiceDto dto)
     {
         var number = await _repository.GetNextNumberAsync();
         var invoice = new Invoice { Number = number };
+
+        if (dto.Items != null && dto.Items.Any())
+        {
+            invoice.Items = dto.Items.Select(itemDto => new InvoiceItem
+            {
+                InvoiceId = invoice.Id,
+                ProductId = itemDto.ProductId,
+                ProductCode = itemDto.ProductCode,
+                ProductDescription = itemDto.ProductDescription,
+                Quantity = itemDto.Quantity
+            }).ToList();
+        }
+
         var created = await _repository.CreateAsync(invoice);
         return ToDto(created);
     }

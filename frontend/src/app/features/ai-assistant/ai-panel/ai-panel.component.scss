@@ -1,0 +1,110 @@
+.page-header {
+  margin-bottom: 2rem;
+  .header-cluster {
+    h1 {
+      font-size: 2.2rem;
+      margin: 0;
+      color: var(--k-acid-green);
+      letter-spacing: -1px;
+    }
+    .subtext {
+      color: var(--k-gray-text);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      font-family: monospace;
+      letter-spacing: 2px;
+    }
+  }
+}
+
+.ai-workbench {
+  width: 100%;
+  max-width: 900px;
+}
+
+.terminal-container {
+  background-color: var(--k-onyx-dark);
+  border: 1px solid var(--k-acid-green);
+  border-left: 5px solid var(--k-acid-green);
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+
+  .terminal-header {
+    background-color: var(--k-acid-green);
+    color: var(--k-onyx-dark);
+    padding: 0.5rem 1rem;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+
+    .blink {
+      animation: blink 1s step-end infinite;
+    }
+  }
+
+  .terminal-body {
+    flex: 1;
+    padding: 2rem;
+    background-image:
+      linear-gradient(rgba(212, 255, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212, 255, 0, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    overflow-y: auto;
+
+    .output-text {
+      color: var(--k-acid-green);
+      font-family: "Space Mono", "Courier New", Courier, monospace;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+
+      ::ng-deep .error {
+        color: var(--k-crimson-error);
+      }
+      ::ng-deep br {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .terminal-actions {
+    padding: 1rem;
+    border-top: 1px dashed rgba(212, 255, 0, 0.3);
+
+    .full-scan-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--k-acid-green);
+      color: var(--k-acid-green);
+      padding: 1.2rem;
+      font-family: monospace;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+
+      &:hover:not(:disabled) {
+        background: var(--k-acid-green);
+        color: var(--k-onyx-dark);
+        box-shadow: 0 0 15px rgba(212, 255, 0, 0.4);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,29 @@
+<div class="page-header">
+  <div class="header-cluster">
+    <a routerLink="/products" class="back-link">← Retornar</a>
+    <h1>Cadastrar Novo Produto (SKU)</h1>
+  </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="k-form">
+  <div class="form-group">
+    <label>Código Único (SKU)</label>
+    <input type="text" formControlName="code" placeholder="EX: MACBOOK-PRO" class="k-input">
+  </div>
+
+  <div class="form-group">
+    <label>Descrição Literal</label>
+    <input type="text" formControlName="description" placeholder="Designação do produto" class="k-input" />
+  </div>
+
+  <div class="form-group">
+    <label>Saldo Inicial (Estoque Físico)</label>
+    <input type="number" formControlName="initialBalance" placeholder="0" class="k-input" />
+  </div>
+
+  <div class="form-actions mt-3">
+    <button type="submit" class="k-btn-primary" [disabled]="form.invalid || submitting">
+      {{ submitting ? 'GRAVANDO...' : 'CADASTRAR E ATIVAR' }}
+    </button>
+  </div>
+</form>

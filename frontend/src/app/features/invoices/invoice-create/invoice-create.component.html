@@ -1,0 +1,17 @@
+<div class="page-header">
+  <div class="header-cluster">
+    <a routerLink="/invoices" class="back-link">← RETORNAR</a>
+    <h1>Emissão de NFE</h1>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <app-item-selector [products]="products"></app-item-selector>
+    <app-items-grid></app-items-grid>
+  </div>
+
+  <div class="col-lg-4">
+    <app-invoice-summary (submit)="submitInvoice()"></app-invoice-summary>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="page-header">
+  <div class="header-cluster">
+    <h1>Operações de Faturamento</h1>
+    <span class="subtext">Relação completa de Notas de Saída Registradas</span>
+  </div>
+  <button class="k-btn-primary" routerLink="/invoices/new">NOVA VISTA / NFE</button>
+</div>
+
+<div class="table-container">
+  <ng-container *ngIf="invoices$ | async as invoices">
+    <table class="k-table brutal" *ngIf="invoices.length > 0; else noData">
+      <thead>
+        <tr>
+          <th>ID DA O.P.</th>
+          <th>ITENS CADEADOS</th>
+          <th class="val-header">STATE / STATUS</th>
+          <th>DATA GERAÇÃO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let invoice of invoices">
+          <td class="font-mono">#KRP-{{ invoice.id | slice:0:8 | uppercase }}</td>
+          <td>{{ invoice.items.length }} SKU(s)</td>
+          <td class="value font-mono highlight k-acid-text">{{ invoice.status | uppercase }}</td>
+          <td>{{ invoice.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noData>
+      <div class="empty-state">
+        <p>Nenhuma transação contábil registrada neste contêiner ainda.</p>
+        <button class="k-btn-secondary" routerLink="/invoices/new">Clique para lançar faturamento.</button>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>

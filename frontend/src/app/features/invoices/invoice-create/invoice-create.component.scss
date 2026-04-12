@@ -1,0 +1,209 @@
+.page-header {
+  margin-bottom: 2rem;
+  .header-cluster {
+    .back-link {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      color: var(--k-gray-text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: bold;
+      transition: color 0.2s;
+      &:hover {
+        color: var(--k-acid-green);
+      }
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin: 0;
+    }
+  }
+}
+
+.k-panel {
+  background-color: var(--k-onyx-mid);
+  border: 1px solid var(--k-onyx-light);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  h3 {
+    margin-top: 0;
+    font-size: 0.9rem;
+    color: var(--k-acid-green);
+    letter-spacing: 2px;
+    border-bottom: 1px dashed var(--k-onyx-light);
+    padding-bottom: 0.5rem;
+  }
+}
+
+.inline-form {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    &.flex-2 {
+      flex: 2;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: var(--k-gray-text);
+      margin-bottom: 0.3rem;
+    }
+
+    .k-input {
+      background-color: var(--k-onyx-dark);
+      border: 1px solid var(--k-onyx-light);
+      padding: 0.8rem;
+      color: var(--k-white-core);
+      font-family: "Space Mono", monospace;
+      font-size: 0.9rem;
+      transition: 0.2s;
+
+      &:focus {
+        border-color: var(--k-acid-green);
+        outline: none;
+      }
+
+      &.numeric {
+        width: 120px;
+      }
+      &.ng-invalid.ng-touched {
+        border-color: var(--k-crimson-error);
+      }
+    }
+  }
+
+  .add-btn {
+    padding: 0.8rem 1.5rem;
+    height: 48px;
+    background: transparent;
+    border: 1px solid var(--k-gray-text);
+    color: var(--k-white-core);
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover:not(:disabled) {
+      border-color: var(--k-acid-green);
+      color: var(--k-acid-green);
+    }
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.k-table.mini-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+  }
+
+  th {
+    color: var(--k-gray-text);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+  td.value {
+    font-weight: bold;
+    font-family: monospace;
+  }
+  td.highlight {
+    color: var(--k-acid-green);
+  }
+
+  .empty-row {
+    text-align: center;
+    color: var(--k-gray-text);
+    font-style: italic;
+  }
+
+  .k-btn-danger-icon {
+    background: transparent;
+    color: var(--k-crimson-error);
+    border: 1px solid var(--k-crimson-error);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    &:hover {
+      background: var(--k-crimson-error);
+      color: white;
+    }
+  }
+}
+
+.checkout-panel {
+  display: flex;
+  flex-direction: column;
+
+  .total-display {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0;
+
+    .label {
+      font-size: 0.8rem;
+      color: var(--k-gray-text);
+      letter-spacing: 1px;
+    }
+    .amount {
+      font-size: 2.8rem;
+      font-family: monospace;
+      color: var(--k-acid-green);
+      font-weight: bold;
+      letter-spacing: -2px;
+    }
+  }
+
+  .ai-box {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: rgba(212, 255, 0, 0.05);
+    border: 1px solid rgba(212, 255, 0, 0.2);
+    color: var(--k-gray-text);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  .finalize-btn {
+    width: 100%;
+    background-color: var(--k-acid-green);
+    color: var(--k-onyx-dark);
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 1.2rem;
+    border: none;
+    cursor: pointer;
+    margin-top: auto;
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 0 15px rgba(212, 255, 0, 0.3);
+    }
+    &:disabled {
+      background-color: var(--k-gray-text);
+      color: var(--k-onyx-mid);
+      cursor: not-allowed;
+    }
+  }
+}

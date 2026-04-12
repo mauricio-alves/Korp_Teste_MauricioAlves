@@ -1,0 +1,24 @@
+<div class="page-header">
+  <div class="header-cluster">
+    <h1>Korp AI // Mainframe Local</h1>
+    <span class="subtext">Engine Neural para Consultoria Preditiva de Negócio</span>
+  </div>
+</div>
+
+<div class="ai-workbench">
+  <div class="terminal-container brutal">
+    <div class="terminal-header">KORP.AI_TERMINAL v1.0 <span class="blink">_</span></div>
+
+    <div class="terminal-body">
+      <div class="output-text"
+        [innerHTML]="responseOutput || '> INIT: CONEXÃO ESTABELECIDA. AGUARDANDO COMANDO DE VARREDURA DO OPERADOR.'">
+      </div>
+    </div>
+
+    <div class="terminal-actions">
+      <button class="k-btn-primary full-scan-btn" [disabled]="loading" (click)="requestInventoryAnalysis()">
+        {{ loading ? '[_PROCESSANDO_NEURÔNIOS_...]' : '>>> DISPARAR VARREDURA DO CATÁLOGO DE ESTOQUE' }}
+      </button>
+    </div>
+  </div>
+</div>

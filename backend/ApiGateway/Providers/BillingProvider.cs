@@ -1,37 +1,14 @@
-using System.Text;
-using System.Text.Json;
-
 namespace ApiGateway.Providers;
 
-public class BillingProvider : IBillingProvider
+public class BillingProvider : BaseProvider, IBillingProvider
 {
-    private readonly HttpClient _httpClient;
-
-    public BillingProvider(IHttpClientFactory factory)
+    public BillingProvider(IHttpClientFactory factory) : base(factory, "BillingClient")
     {
-        _httpClient = factory.CreateClient("BillingClient");
     }
 
-    public async Task<string> GetAsync(string path)
-    {
-        var response = await _httpClient.GetAsync(path);
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
-    }
+    public new Task<string> GetAsync(string path) => base.GetAsync(path);
 
-    public async Task<string> PostAsync(string path, object? body = null)
-    {
-        var content = body is not null
-            ? new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json")
-            : new StringContent(string.Empty, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync(path, content);
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
-    }
+    public new Task<string> PostAsync(string path, object? body = null) => base.PostAsync(path, body);
 
-    public async Task DeleteAsync(string path)
-    {
-        var response = await _httpClient.DeleteAsync(path);
-        response.EnsureSuccessStatusCode();
-    }
+    public new Task DeleteAsync(string path) => base.DeleteAsync(path);
 }

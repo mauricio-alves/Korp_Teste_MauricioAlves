@@ -28,7 +28,8 @@ public class InvoiceServiceTests
         _repositoryMock.Setup(r => r.CreateAsync(It.IsAny<Invoice>()))
             .ReturnsAsync((Invoice i) => i);
 
-        var result = await _sut.CreateAsync();
+        var dto = new CreateInvoiceDto(new List<AddInvoiceItemDto>());
+        var result = await _sut.CreateAsync(dto);
 
         Assert.Equal(5, result.Number);
         Assert.Equal("Open", result.Status);

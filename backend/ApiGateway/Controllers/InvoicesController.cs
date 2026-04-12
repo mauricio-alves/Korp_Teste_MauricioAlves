@@ -29,9 +29,9 @@ public class InvoicesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create([FromBody] object body)
     {
-        var result = await _billing.PostAsync("/api/invoices");
+        var result = await _billing.PostAsync("/api/invoices", body);
         return StatusCode(StatusCodes.Status201Created, result);
     }
 

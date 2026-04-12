@@ -17,6 +17,50 @@ services:
       retries: 5
     restart: unless-stopped
 
+  inventoryservice:
+    build:
+      context: ./backend/InventoryService
+      dockerfile: Dockerfile
+    container_name: korp_inventory
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__InventoryDb=Host=postgres;Port=5432;Database=inventory_db;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+    ports:
+      - "5001:5001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  billingservice:
+    build:
+      context: ./backend/BillingService
+      dockerfile: Dockerfile
+    container_name: korp_billing
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__BillingDb=Host=postgres;Port=5432;Database=billing_db;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+    ports:
+      - "5002:5002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  apigateway:
+    build:
+      context: ./backend/ApiGateway
+      dockerfile: Dockerfile
+    container_name: korp_apigateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Gemini__ApiKey=${GEMINI_API_KEY}
+      - Services__InventoryServiceUrl=http://inventoryservice:5001
+      - Services__BillingServiceUrl=http://billingservice:5002
+    ports:
+      - "5000:5000"
+    depends_on:
+      - inventoryservice
+      - billingservice
+
 volumes:
   korp_postgres_data:
     driver: local
