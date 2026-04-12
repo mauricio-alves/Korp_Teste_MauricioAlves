@@ -108,15 +108,24 @@ Configurado no `ApiGateway` e `BillingService` para chamadas HTTP entre servicos
 services.AddHttpClient("InventoryClient")
     .AddPolicyHandler(PollyPolicies.RetryAsync())
     .AddPolicyHandler(PollyPolicies.CircuitBreakerAsync());
-
-// CircuitBreaker: abre apos 5 falhas, aguarda 30s
 ```
 
-**Fluxo de Impressao com Rollback (Saga/Compensacao):**
+As APIs foram construídas seguindo os princípios de **Clean Architecture** e **SOLID**, com foco em alta coesão e baixo acoplamento.
 
-1. Para cada item da nota: debita saldo no InventoryService
-2. Se qualquer debito falhar: credito reverso em todos os itens ja debitados
-3. Retorna 503 com detalhes do erro para o frontend
+### 🏛 Destaques Arquiteturais
+
+- **BaseProvider (ApiGateway)**: Classe base abstrata que centraliza a lógica de comunicação HTTP, serialização e tratamento de erros globais (DRY).
+- **Persistência Atômica**: O `BillingService` agora utiliza o `DbContext` para persistir a Nota Fiscal e seus itens em uma transação única, garantindo integridade ACID.
+- **Circuit Breaker**: Implementado via Polly no Gateway para proteger contra falhas em cascata.
+
+---
+
+**Fluxo de Faturamento: Atômico e resiliente:**
+
+1. O `BillingService` inicia uma transação de banco de dados.
+2. Para cada item da nota, o serviço solicita o débito no `InventoryService` via `BaseProvider`.
+3. Se todos os débitos forem bem-sucedidos, a nota é persistida e a transação é confirmada (Commit).
+4. Se qualquer falha ocorrer, a transação é revertida (Rollback) e, se necessário, créditos reversos são disparados para os itens já processados.
 
 ---
 
