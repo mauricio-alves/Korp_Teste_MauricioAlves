@@ -10,7 +10,7 @@ public class InventoryProvider : BaseProvider, IInventoryProvider
 
     public new Task<string> PostAsync(string path, object body) => base.PostAsync(path, body);
 
-    public new Task PutAsync(string path, object body) => base.PutAsync(path, body);
+    public new Task<string> PutAsync(string path, object body) => base.PutWithResponseAsync(path, body);
 
     public new Task DeleteAsync(string path) => base.DeleteAsync(path);
 

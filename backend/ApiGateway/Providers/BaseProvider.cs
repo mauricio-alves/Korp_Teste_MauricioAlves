@@ -44,6 +44,14 @@ public abstract class BaseProvider
         await HandleErrorAsync(response);
     }
 
+    protected async Task<string> PutWithResponseAsync(string path, object body)
+    {
+        var content = CreateContent(body);
+        var response = await HttpClient.PutAsync(path, content);
+        await HandleErrorAsync(response);
+        return await response.Content.ReadAsStringAsync();
+    }
+
     protected async Task PatchAsync(string path, object body)
     {
         var content = CreateContent(body);

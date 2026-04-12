@@ -36,7 +36,9 @@ public class InvoicesController : ControllerBase
     [ProducesResponseType(typeof(InvoiceDto), StatusCodes.Status201Created)]
     public async Task<IActionResult> Create([FromBody] CreateInvoiceDto dto)
     {
-        Console.WriteLine($"[BILLING] Received create request. Items count: {dto?.Items?.Count ?? 0}");
+        if (dto == null) return BadRequest("Invoice data is required.");
+        
+        Console.WriteLine($"[BILLING] Received create request. Items count: {dto.Items?.Count ?? 0}");
         var invoice = await _service.CreateAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = invoice.Id }, invoice);
     }
