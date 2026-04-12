@@ -32,7 +32,12 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] object body)
     {
         var result = await _inventory.PostAsync("/api/products", body);
-        return StatusCode(StatusCodes.Status201Created, result);
+        return new ContentResult
+        {
+            Content = result,
+            ContentType = "application/json",
+            StatusCode = StatusCodes.Status201Created
+        };
     }
 
     [HttpPut("{id:guid}")]

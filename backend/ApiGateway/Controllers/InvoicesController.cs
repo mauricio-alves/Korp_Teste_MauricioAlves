@@ -19,14 +19,14 @@ public class InvoicesController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var result = await _billing.GetAsync("/api/invoices");
-        return Ok(result);
+        return Content(result, "application/json");
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = await _billing.GetAsync($"/api/invoices/{id}");
-        return Ok(result);
+        return Content(result, "application/json");
     }
 
     [HttpPost]
@@ -45,7 +45,7 @@ public class InvoicesController : ControllerBase
     public async Task<IActionResult> AddItem(Guid id, [FromBody] AddInvoiceItemDto body)
     {
         var result = await _billing.PostAsync($"/api/invoices/{id}/items", body);
-        return Ok(result);
+        return Content(result, "application/json");
     }
 
     [HttpDelete("{id:guid}/items/{itemId:guid}")]
@@ -59,6 +59,6 @@ public class InvoicesController : ControllerBase
     public async Task<IActionResult> Print(Guid id)
     {
         var result = await _billing.PostAsync($"/api/invoices/{id}/print");
-        return Ok(result);
+        return Content(result, "application/json");
     }
 }

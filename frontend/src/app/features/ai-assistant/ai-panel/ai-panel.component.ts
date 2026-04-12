@@ -12,16 +12,25 @@ import { Product } from '../../../core/models/product.model';
   styleUrl: './ai-panel.component.scss',
 })
 export class AiPanelComponent {
-  private aiService = inject(AiService);
-  private productService = inject(ProductService);
+  private readonly aiService = inject(AiService);
+  private readonly productService = inject(ProductService);
 
   responseOutput = '';
   loading = false;
+  isError = false;
+
+  private readonly INITIAL_MESSAGE =
+    '> INIT: CONEXÃO ESTABELECIDA. AGUARDANDO COMANDO DE VARREDURA DO OPERADOR.';
+
+  get displayOutput(): string {
+    return this.responseOutput || this.INITIAL_MESSAGE;
+  }
 
   requestInventoryAnalysis() {
     this.loading = true;
+    this.isError = false;
     this.responseOutput =
-      'SINCRONIZANDO LINK DE REDE KORP...<br>> EXTRAINDO MEMÓRIA VOLÁTIL DE INVENTÁRIO...';
+      'SINCRONIZANDO LINK DE REDE KORP...\n> EXTRAINDO MEMÓRIA VOLÁTIL DE INVENTÁRIO...';
 
     this.productService.getProducts().subscribe({
       next: (products: Product[]) => {
@@ -31,7 +40,8 @@ export class AiPanelComponent {
 
         if (!productList) {
           this.responseOutput =
-            '<span class="error">ERRO: Base de dados de produtos vazia. Adicione SKU no catálogo antes de usar o Módulo.</span>';
+            'ERRO: Base de dados de produtos vazia. Adicione SKU no catálogo antes de usar o Módulo.';
+          this.isError = true;
           this.loading = false;
           return;
         }
@@ -45,13 +55,13 @@ export class AiPanelComponent {
           .subscribe({
             next: (res: any) => {
               this.responseOutput =
-                '> [KORP_NEURON_PROCESS_OK]<br><br>' +
-                res.suggestion.replace(/\n/g, '<br>');
+                '> [KORP_NEURON_PROCESS_OK]\n\n' + res.suggestion;
               this.loading = false;
             },
             error: () => {
               this.responseOutput =
-                "<span class='error'>ERRO CRITICO_DE_CONEXAO_NEURAL: O ApiGateway ou o NÓ DO GEMINI RECUSOU COMUNICAÇÃO.</span>";
+                'ERRO CRITICO_DE_CONEXAO_NEURAL: O ApiGateway ou o NÓ DO GEMINI RECUSOU COMUNICAÇÃO.';
+              this.isError = true;
               this.loading = false;
             },
           });

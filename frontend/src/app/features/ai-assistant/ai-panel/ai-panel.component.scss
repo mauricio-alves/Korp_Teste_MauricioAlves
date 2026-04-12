@@ -60,11 +60,8 @@
       line-height: 1.6;
       white-space: pre-wrap;
 
-      ::ng-deep .error {
+      &.error-output {
         color: var(--k-crimson-error);
-      }
-      ::ng-deep br {
-        margin-bottom: 10px;
       }
     }
   }

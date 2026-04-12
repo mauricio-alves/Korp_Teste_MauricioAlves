@@ -1,6 +1,6 @@
 # Korp Note System | Backend & Engenharia
 
-O backend do **Korp Note System** foi projetado para oferecer alta confiabilidade transacional e segurança robusta, utilizando as melhores práticas da plataforma **.NET 8**.
+O backend do **Korp Note System** foi projetado para oferecer alta confiabilidade transacional e segurança robusta, utilizando as melhores práticas da plataforma **.NET 8** e persistência em **PostgreSQL**.
 
 ---
 

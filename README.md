@@ -21,7 +21,7 @@ graph TD
         ApiGateway --> KorpAI[Korp.AI - Gemini Integration]
     end
 
-    BillingService --> Database[(SQL Server / EF Core)]
+    BillingService --> Database[(PostgreSQL / EF Core)]
     InventoryService --> Database
 ```
 
