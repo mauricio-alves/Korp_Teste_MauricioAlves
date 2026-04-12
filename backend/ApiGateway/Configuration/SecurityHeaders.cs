@@ -13,6 +13,7 @@ public static class SecurityHeaders
             context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
             context.Response.Headers["Referrer-Policy"] = "no-referrer";
             context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()";
+            context.Response.Headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains";
             
             context.Response.Headers["Content-Security-Policy"] = BuildCsp(configuration);
 

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ApiGateway.Providers;
+using ApiGateway.Models;
 
 namespace ApiGateway.Controllers;
 
@@ -29,7 +30,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] object body)
+    public async Task<IActionResult> Create([FromBody] CreateProductDto body)
     {
         var result = await _inventory.PostAsync("/api/products", body);
         return new ContentResult
@@ -41,7 +42,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] object body)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateProductDto body)
     {
         var result = await _inventory.PutAsync($"/api/products/{id}", body);
         return Content(result, "application/json");

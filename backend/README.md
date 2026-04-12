@@ -36,7 +36,7 @@ Utilizamos o `BaseProvider.cs` no Gateway para centralizar:
 
 ### 3. Hardening de Segurança
 
-- **Content Security Policy (CSP)**: Implementada no Gateway para mitigar ataques de XSS e Data Injection.
+- **Security Headers (CSP & HSTS)**: Implementados no Gateway para mitigar ataques de XSS, Data Injection e garantir comunicações via HTTPS.
 - **Typed DTOs**: Contratos de API 100% tipados no Gateway e nos Serviços, eliminando o uso de `object` ou `any`.
 - **RowVersion (Planned)**: Suporte a concorrência otimista para evitar "race conditions" em atualizações simultâneas de estoque.
 

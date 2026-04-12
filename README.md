@@ -47,7 +47,7 @@ Para subir o ecossistema completo, siga os passos abaixo:
    docker-compose up --build
    ```
 
-   _Isso iniciará o Gateway (5000), Inventory (5001), Billing (5002) e o SQL Server._
+   _Isso iniciará o Gateway (5000), Inventory (5001), Billing (5002) e o PostgreSQL._
 
 2. **Frontend (Angular)**:
    ```bash

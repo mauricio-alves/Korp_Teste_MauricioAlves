@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AiService } from '../../../core/services/ai.service';
+import { AiService, AiSuggestionResponse } from '../../../core/services/ai.service';
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../core/models/product.model';
 
@@ -53,7 +53,7 @@ export class AiPanelComponent {
             availableProducts: productList,
           })
           .subscribe({
-            next: (res: any) => {
+            next: (res: AiSuggestionResponse) => {
               this.responseOutput =
                 '> [KORP_NEURON_PROCESS_OK]\n\n' + res.suggestion;
               this.loading = false;
