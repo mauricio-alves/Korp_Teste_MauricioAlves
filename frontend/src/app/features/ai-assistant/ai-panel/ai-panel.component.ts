@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AiService, AiSuggestionResponse } from '../../../core/services/ai.service';
 import { ProductService } from '../../../core/services/product.service';
 import { Product } from '../../../core/models/product.model';
@@ -58,13 +59,17 @@ export class AiPanelComponent {
           this.responseOutput =
             '> [KORP_NEURON_PROCESS_OK]\n\n' + res.suggestion;
         },
-        error: (err: Error) => {
-          if (err.message === 'DATABASE_EMPTY') {
+        error: (err: unknown) => {
+          if (err instanceof Error && err.message === 'DATABASE_EMPTY') {
             this.responseOutput =
               'ERRO: Base de dados de produtos vazia. Adicione SKU no catálogo antes de usar o Módulo.';
           } else {
             this.responseOutput =
               'ERRO CRITICO_DE_CONEXAO_NEURAL: O ApiGateway ou o NÓ DO GEMINI RECUSOU COMUNICAÇÃO.';
+            
+            if (err instanceof HttpErrorResponse) {
+              console.error(`[AI_PANEL] HTTP ${err.status}: ${err.message}`, err.error);
+            }
           }
           this.isError = true;
         },

@@ -65,7 +65,7 @@ Para subir o ecossistema completo, siga os passos abaixo:
 - [x] **State Management**: Uso de Signals no Angular para reatividade de alta performance.
 - [x] **Clean Code & SOLID**: Arquitetura baseada em Providers e serviços especializados.
 - [x] **Integração com IA**: "Korp.AI" utilizando Google Gemini para auxílio na montagem de notas.
-- [x] **Segurança**: Headers de segurança (CSP, HSTS) e validação de concorrência.
+- [x] **Segurança**: Headers de segurança (CSP, HSTS condicional) e validação de concorrência.
 
 ---
 
@@ -76,9 +76,8 @@ Estes itens estão mapeados para garantir 100% de conformidade com os requisitos
 1.  **Relatório de Detalhamento Técnico (`TECH_REPORT.md`)**: Criação do documento obrigatório (Pág. 1 do PDF) respondendo às perguntas sobre Angular LifeCycles, RxJS, LINQ e tratamento de erros.
 2.  **Segurança de Estado (Business Logic)**: Impedir a adição ou remoção de itens em notas que já possuem o status `Closed` (pós-impressão).
 3.  **Feedback Visual (Toasts/Notificações)**: Implementar um sistema de notificações no frontend para fornecer feedback imediato de sucesso ou erro (exigência do teste).
-4.  **Refinamento do Cadastro de Produtos**: Validar e polir o formulário de criação de novos produtos para garantir que o fluxo de ponta a ponta esteja funcional.
-5.  **Concorrência Otimista (RowVersion)**: Implementar `Timestamp` no modelo de `Product` para gestão de conflitos de estoque.
-6.  **Idempotência Avançada**: Persistência de chaves de idempotência para garantir resiliência em falhas de rede.
+4.  **Concorrência Otimista (RowVersion)**: Implementar `Timestamp` no modelo de `Product` para gestão de conflitos de estoque.
+5.  **Idempotência Avançada**: Persistência de chaves de idempotência para garantir resiliência em falhas de rede.
 
 ---
 

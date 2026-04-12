@@ -46,6 +46,16 @@ O fluxo principal de faturamento foi decomposto em componentes especializados co
 
 ---
 
+## Acessibilidade & Inclusão (A11y)
+
+O sistema segue padrões básicos de acessibilidade para garantir que operadores com diferentes necessidades possam utilizar a ferramenta:
+
+1.  **Semântica de Formulários**: Uso rigoroso de associações `label[for]` e `input[id]`.
+2.  **Operação via Teclado**: Fluxos de faturamento otimizados para navegação sequencial.
+3.  **Contraste Elevado**: O Dark Mode foi validado para garantir legibilidade agressiva (Brutalism Design).
+
+---
+
 ## Como Executar
 
 ```bash

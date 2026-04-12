@@ -26,17 +26,17 @@ Implementamos uma lógica de **Saga Patterns Simplificada** no `InvoiceService` 
 - **Fechamento**: Somente após o sucesso do débito a nota é marcada como `Closed`.
 - **Rollback de Compensação**: Se ocorrer um erro após o débito parcial ou falha de rede no fechamento, um mecanismo de compensação devolve automaticamente o saldo ao estoque.
 
-### 2. BaseProvider Pattern (DRY)
+### 2. BaseProvider Pattern (Clean Architecture)
 
-Utilizamos o `BaseProvider.cs` no Gateway para centralizar:
+Utilizamos o `BaseProvider.cs` no Gateway para centralizar a infraestrutura de comunicação, seguindo um design que evita conflitos de nomes (shadowing):
 
-- Ciclo de vida de `HttpClient` (com disposal correto de `HttpResponseMessage`).
-- Serialização padronizada via `System.Text.Json`.
-- Tratamento estruturado de erros de comunicação inter-serviços.
+- **Métodos Internos**: A infraestrutura base utiliza nomes como `InternalGetAsync` e `InternalPostAsync`.
+- **Implementação Limpa**: Os provedores específicos (`Billing`, `Inventory`) implementam suas interfaces públicas chamando estes métodos internos, eliminando a ambiguidade de despacho.
+- **Gerenciamento de HttpClient**: Ciclo de vida centralizado com disposal correto e tratamento estruturado de exceções inter-serviços.
 
 ### 3. Hardening de Segurança
 
-- **Security Headers (CSP & HSTS)**: Implementados no Gateway para mitigar ataques de XSS, Data Injection e garantir comunicações via HTTPS.
+- **Security Headers (CSP & HSTS)**: Implementados no Gateway para mitigar ataques de XSS e Data Injection. O header `Strict-Transport-Security` é aplicado de forma **condicional** (apenas em requisições HTTPS), garantindo que o ambiente de desenvolvimento local (`http://localhost`) permaneça funcional sem forçar certificados SSL inexistentes.
 - **Typed DTOs**: Contratos de API 100% tipados no Gateway e nos Serviços, eliminando o uso de `object` ou `any`.
 - **RowVersion (Planned)**: Suporte a concorrência otimista para evitar "race conditions" em atualizações simultâneas de estoque.
 

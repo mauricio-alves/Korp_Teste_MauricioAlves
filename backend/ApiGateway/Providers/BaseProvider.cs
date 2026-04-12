@@ -41,7 +41,7 @@ public abstract class BaseProvider
 
     protected async Task<string> InternalPostAsync(string path, object? body = null)
     {
-        var content = CreateContent(body);
+        using var content = CreateContent(body);
         using var response = await HttpClient.PostAsync(path, content);
         await HandleErrorAsync(response);
         return await response.Content.ReadAsStringAsync();
@@ -49,14 +49,14 @@ public abstract class BaseProvider
 
     protected async Task InternalPutAsync(string path, object body)
     {
-        var content = CreateContent(body);
+        using var content = CreateContent(body);
         using var response = await HttpClient.PutAsync(path, content);
         await HandleErrorAsync(response);
     }
 
     protected async Task<string> InternalPutWithResponseAsync(string path, object body)
     {
-        var content = CreateContent(body);
+        using var content = CreateContent(body);
         using var response = await HttpClient.PutAsync(path, content);
         await HandleErrorAsync(response);
         return await response.Content.ReadAsStringAsync();
@@ -64,7 +64,7 @@ public abstract class BaseProvider
 
     protected async Task InternalPatchAsync(string path, object body)
     {
-        var content = CreateContent(body);
+        using var content = CreateContent(body);
         using var response = await HttpClient.PatchAsync(path, content);
         await HandleErrorAsync(response);
     }
