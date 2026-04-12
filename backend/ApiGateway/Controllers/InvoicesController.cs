@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using ApiGateway.Providers;
 using ApiGateway.DTOs;
 
