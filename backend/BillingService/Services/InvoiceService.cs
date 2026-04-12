@@ -36,6 +36,14 @@ public class InvoiceService : IInvoiceService
 
         if (dto.Items != null && dto.Items.Any())
         {
+            foreach (var item in dto.Items)
+            {
+                if (item.Quantity <= 0)
+                    throw new ArgumentException("Quantity must be greater than zero for all items.");
+                if (item.ProductId == Guid.Empty)
+                    throw new ArgumentException("ProductId is required for all items.");
+            }
+
             invoice.Items = dto.Items.Select(itemDto => new InvoiceItem
             {
                 InvoiceId = invoice.Id,

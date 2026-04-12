@@ -5,13 +5,13 @@
   </div>
 </div>
 
-<div class="row g-4">
-  <div class="col-lg-8">
+<div class="grid-layout">
+  <div class="main-content">
     <app-item-selector [products]="products"></app-item-selector>
     <app-items-grid></app-items-grid>
   </div>
 
-  <div class="col-lg-4">
+  <div class="checkout-panel">
     <app-invoice-summary (submit)="submitInvoice()"></app-invoice-summary>
   </div>
 </div>

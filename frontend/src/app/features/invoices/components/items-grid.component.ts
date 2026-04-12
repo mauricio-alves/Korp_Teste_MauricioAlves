@@ -32,7 +32,11 @@ import { InvoiceStateService } from '../services/invoice-state.service';
                   {{ item.total | currency: 'BRL' }}
                 </td>
                 <td class="text-center">
-                  <button (click)="remove($index)" class="btn-delete-tiny">
+                  <button
+                    (click)="remove($index)"
+                    class="btn-delete-tiny"
+                    aria-label="Remover item"
+                  >
                     ✕
                   </button>
                 </td>

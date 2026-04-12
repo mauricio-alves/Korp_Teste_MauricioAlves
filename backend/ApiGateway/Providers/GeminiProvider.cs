@@ -24,7 +24,7 @@ public class GeminiProvider : IGeminiProvider
         var apiKey = _configuration["Gemini:ApiKey"];
         if (string.IsNullOrWhiteSpace(apiKey))
         {
-            throw new InvalidOperationException("ERRO CRITICO: Korp AI Key está VAZIA ou não configurada no arquivo '.env' host!");
+            throw new InvalidOperationException("Missing required configuration key 'Gemini:ApiKey'.");
         }
 
         var prompt = $"Baseado no contexto: '{context}', sugira quais dos seguintes produtos devem ser incluídos em uma nota fiscal e em qual quantidade. Produtos disponíveis: {availableProducts}. Responda em português, de forma concisa.";

@@ -16,7 +16,7 @@ public abstract class BaseProvider
 
     protected async Task<T> GetAsync<T>(string path)
     {
-        var response = await HttpClient.GetAsync(path);
+        using var response = await HttpClient.GetAsync(path);
         await HandleErrorAsync(response);
         var content = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<T>(content, JsonOptions)!;
@@ -24,7 +24,7 @@ public abstract class BaseProvider
 
     protected async Task<string> GetAsync(string path)
     {
-        var response = await HttpClient.GetAsync(path);
+        using var response = await HttpClient.GetAsync(path);
         await HandleErrorAsync(response);
         return await response.Content.ReadAsStringAsync();
     }
@@ -32,7 +32,7 @@ public abstract class BaseProvider
     protected async Task<string> PostAsync(string path, object? body = null)
     {
         var content = CreateContent(body);
-        var response = await HttpClient.PostAsync(path, content);
+        using var response = await HttpClient.PostAsync(path, content);
         await HandleErrorAsync(response);
         return await response.Content.ReadAsStringAsync();
     }
@@ -40,14 +40,14 @@ public abstract class BaseProvider
     protected async Task PutAsync(string path, object body)
     {
         var content = CreateContent(body);
-        var response = await HttpClient.PutAsync(path, content);
+        using var response = await HttpClient.PutAsync(path, content);
         await HandleErrorAsync(response);
     }
 
     protected async Task<string> PutWithResponseAsync(string path, object body)
     {
         var content = CreateContent(body);
-        var response = await HttpClient.PutAsync(path, content);
+        using var response = await HttpClient.PutAsync(path, content);
         await HandleErrorAsync(response);
         return await response.Content.ReadAsStringAsync();
     }
@@ -55,13 +55,13 @@ public abstract class BaseProvider
     protected async Task PatchAsync(string path, object body)
     {
         var content = CreateContent(body);
-        var response = await HttpClient.PatchAsync(path, content);
+        using var response = await HttpClient.PatchAsync(path, content);
         await HandleErrorAsync(response);
     }
 
     protected async Task DeleteAsync(string path)
     {
-        var response = await HttpClient.DeleteAsync(path);
+        using var response = await HttpClient.DeleteAsync(path);
         await HandleErrorAsync(response);
     }
 

@@ -1,7 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Invoice, AddInvoiceItemDto } from '../models/invoice.model';
+import {
+  Invoice,
+  AddInvoiceItemDto,
+  CreateInvoiceDto,
+} from '../models/invoice.model';
 
 @Injectable({ providedIn: 'root' })
 export class InvoiceService {
@@ -12,12 +16,12 @@ export class InvoiceService {
     return this.http.get<Invoice[]>(this.API_URL);
   }
 
-  createInvoice(payload: any): Observable<Invoice> {
+  createInvoice(payload: CreateInvoiceDto): Observable<Invoice> {
     return this.http.post<Invoice>(this.API_URL, payload);
   }
 
-  addItem(invoiceId: string, data: AddInvoiceItemDto): Observable<any> {
-    return this.http.post(`${this.API_URL}/${invoiceId}/items`, data);
+  addItem(invoiceId: string, data: AddInvoiceItemDto): Observable<Invoice> {
+    return this.http.post<Invoice>(`${this.API_URL}/${invoiceId}/items`, data);
   }
 
   removeItem(invoiceId: string, itemId: string): Observable<void> {

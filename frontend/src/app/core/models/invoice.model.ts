@@ -19,5 +19,16 @@ export interface Invoice {
 
 export interface AddInvoiceItemDto {
   productId: string;
+  productCode: string;
+  productDescription: string;
   quantity: number;
+}
+
+export interface CreateInvoiceDto {
+  items: Array<{
+    productId: string;
+    productCode: string;
+    productDescription: string;
+    quantity: number;
+  }>;
 }

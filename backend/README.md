@@ -1,6 +1,6 @@
 # Backend — Detalhamento Tecnico
 
-Tres microsservicos C# .NET 8 com Entity Framework Core e PostgreSQL.
+Três microsserviços C# .NET 8 com Entity Framework Core e PostgreSQL.
 
 ---
 
