@@ -39,6 +39,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__BillingDb=Host=postgres;Port=5432;Database=billing_db;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - Services__InventoryServiceUrl=http://inventoryservice:5001
     ports:
       - "5002:5002"
     depends_on:

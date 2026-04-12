@@ -31,8 +31,8 @@ public class GlobalExceptionMiddleware
     {
         var (status, title) = ex switch
         {
-            HttpRequestException { StatusCode: HttpStatusCode.NotFound } => (HttpStatusCode.NotFound, "Not Found"),
-            HttpRequestException { StatusCode: HttpStatusCode.Conflict } => (HttpStatusCode.Conflict, "Conflict"),
+            HttpRequestException httpEx when httpEx.StatusCode.HasValue => 
+                (httpEx.StatusCode.Value, httpEx.StatusCode.Value.ToString()),
             HttpRequestException => (HttpStatusCode.ServiceUnavailable, "Service Unavailable"),
             InvalidOperationException => (HttpStatusCode.BadRequest, "Bad Request"),
             _ => (HttpStatusCode.InternalServerError, "Internal Server Error")

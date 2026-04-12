@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { InvoiceService } from '../../../core/services/invoice.service';
 import { Invoice } from '../../../core/models/invoice.model';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-invoice-list',
@@ -13,7 +13,9 @@ import { Observable } from 'rxjs';
   styleUrl: './invoice-list.component.scss',
 })
 export class InvoiceListComponent {
-  private invoiceService = inject(InvoiceService);
+  private readonly invoiceService = inject(InvoiceService);
 
-  invoices$: Observable<Invoice[]> = this.invoiceService.getInvoices();
+  invoices$: Observable<Invoice[]> = this.invoiceService
+    .getInvoices()
+    .pipe(catchError(() => of([])));
 }

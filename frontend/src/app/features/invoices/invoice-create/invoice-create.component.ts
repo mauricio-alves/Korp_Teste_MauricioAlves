@@ -31,16 +31,26 @@ export class InvoiceCreateComponent implements OnInit {
   private readonly router = inject(Router);
 
   products: Product[] = [];
+  loadingProducts = false;
+  submitting = false;
 
   ngOnInit() {
-    this.productService
-      .getProducts()
-      .subscribe((pts: Product[]) => (this.products = pts));
+    this.loadingProducts = true;
+    this.productService.getProducts().subscribe({
+      next: (pts: Product[]) => {
+        this.products = pts;
+        this.loadingProducts = false;
+      },
+      error: () => (this.loadingProducts = false),
+    });
   }
 
   submitInvoice() {
+    if (this.submitting) return;
+
     const items = this.state.items();
     if (items.length > 0) {
+      this.submitting = true;
       const payload: CreateInvoiceDto = {
         items: items.map((i) => ({
           productId: i.productId,
@@ -49,9 +59,12 @@ export class InvoiceCreateComponent implements OnInit {
           quantity: i.quantity,
         })),
       };
-      this.invoiceService.createInvoice(payload).subscribe(() => {
-        this.state.clear();
-        this.router.navigate(['/invoices']);
+      this.invoiceService.createInvoice(payload).subscribe({
+        next: () => {
+          this.state.clear();
+          this.router.navigate(['/invoices']);
+        },
+        error: () => (this.submitting = false),
       });
     }
   }
