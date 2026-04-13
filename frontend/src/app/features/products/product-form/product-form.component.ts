@@ -20,7 +20,7 @@ export class ProductFormComponent {
   form = this.fb.group({
     code: ['', [Validators.required, Validators.maxLength(50)]],
     description: ['', [Validators.required, Validators.maxLength(200)]],
-    initialBalance: [0, [Validators.required, Validators.min(0)]],
+    balance: [0, [Validators.required, Validators.min(0)]],
   });
 
   submitting = false;

@@ -10,5 +10,5 @@ export interface Product {
 export interface CreateProductDto {
   code: string;
   description: string;
-  initialBalance: number;
+  balance: number;
 }

@@ -18,7 +18,7 @@ Este projeto abandona o gerenciamento de estado complexo e verboso em favor dos 
 
 Não utilizamos frameworks CSS genéricos. O sistema utiliza **Vanilla CSS** com uma arquitetura de tokens modernos:
 
-1. **Vibrant Dark Mode**: Baseado em tons de carvão e cinza-azulado com acentos em violeta vibrante e ciano.
+1. **Vibrant Dark Mode**: Baseado em tons de carvão e cinza-técnico com acentos em **Verde Ácido** e ciano.
 2. **Glassmorphism**: Uso de transparências e `backdrop-filter` para dar profundidade à interface.
 3. **Typography**: Foco em legibilidade com a fonte **Inter**, utilizando pesos variados para criar hierarquia visual clara.
 4. **Grid Layout**: Sistema de grid customizado para o painel de faturamento, separando a seleção de itens do checkout financeiro de forma elegante.
