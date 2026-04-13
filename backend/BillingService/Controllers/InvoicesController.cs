@@ -9,10 +9,12 @@ namespace BillingService.Controllers;
 public class InvoicesController : ControllerBase
 {
     private readonly IInvoiceService _service;
+    private readonly ILogger<InvoicesController> _logger;
 
-    public InvoicesController(IInvoiceService service)
+    public InvoicesController(IInvoiceService service, ILogger<InvoicesController> logger)
     {
         _service = service;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -34,9 +36,10 @@ public class InvoicesController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(typeof(InvoiceDto), StatusCodes.Status201Created)]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create([FromBody] CreateInvoiceDto dto)
     {
-        var invoice = await _service.CreateAsync();
+        _logger.LogInformation("Creating new invoice with {ItemCount} items.", dto.Items?.Count ?? 0);
+        var invoice = await _service.CreateAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = invoice.Id }, invoice);
     }
 

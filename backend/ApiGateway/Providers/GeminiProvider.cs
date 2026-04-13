@@ -21,8 +21,11 @@ public class GeminiProvider : IGeminiProvider
 
     public async Task<string> SuggestProductsAsync(string context, string availableProducts)
     {
-        var apiKey = _configuration["Gemini:ApiKey"]
-            ?? throw new InvalidOperationException("Gemini API key not configured.");
+        var apiKey = _configuration["Gemini:ApiKey"];
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            throw new InvalidOperationException("Missing required configuration key 'Gemini:ApiKey'.");
+        }
 
         var prompt = $"Baseado no contexto: '{context}', sugira quais dos seguintes produtos devem ser incluídos em uma nota fiscal e em qual quantidade. Produtos disponíveis: {availableProducts}. Responda em português, de forma concisa.";
 
@@ -36,7 +39,7 @@ public class GeminiProvider : IGeminiProvider
 
         var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(
-            $"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={apiKey}",
+            $"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={apiKey}",
             content);
 
         response.EnsureSuccessStatusCode();

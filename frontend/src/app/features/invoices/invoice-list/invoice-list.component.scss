@@ -1,0 +1,120 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+
+  .header-cluster {
+    h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.5rem;
+      letter-spacing: -1px;
+    }
+    .subtext {
+      color: var(--k-gray-text);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+  }
+
+  .k-btn-primary {
+    background-color: var(--k-acid-green);
+    color: var(--k-onyx-dark);
+    border: none;
+    padding: 1rem 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--k-acid-green-hover);
+      box-shadow: 0 0 10px rgba(212, 255, 0, 0.2);
+    }
+  }
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-top: 1px solid var(--k-onyx-light);
+
+  .k-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 1.5rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--k-onyx-light);
+    }
+
+    th {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      color: var(--k-gray-text);
+      letter-spacing: 1px;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+
+      &.val-header {
+        text-align: right;
+      }
+    }
+
+    td {
+      font-size: 1.1rem;
+      color: var(--k-white-core);
+
+      &.font-mono {
+        font-family: "Space Mono", "Courier New", Courier, monospace;
+      }
+
+      &.value {
+        text-align: right;
+        font-weight: bold;
+      }
+
+      &.highlight.k-acid-text {
+        color: var(--k-acid-green);
+      }
+    }
+
+    tr {
+      transition: background-color 0.2s ease;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.02);
+      }
+    }
+  }
+
+  .empty-state {
+    padding: 4rem;
+    text-align: center;
+    border: 1px dashed var(--k-onyx-light);
+    color: var(--k-gray-text);
+    margin-top: 2rem;
+
+    p {
+      margin-bottom: 1.5rem;
+    }
+
+    .k-btn-secondary {
+      background: transparent;
+      border: 1px solid var(--k-acid-green);
+      color: var(--k-acid-green);
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-weight: bold;
+      transition: all 0.2s;
+
+      &:hover {
+        background: var(--k-acid-green);
+        color: var(--k-onyx-dark);
+      }
+    }
+  }
+}

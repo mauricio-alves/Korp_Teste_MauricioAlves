@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ApiGateway.Providers;
+using ApiGateway.DTOs;
 
 namespace ApiGateway.Controllers;
 
@@ -29,14 +30,19 @@ public class InvoicesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create([FromBody] CreateInvoiceDto body)
     {
-        var result = await _billing.PostAsync("/api/invoices");
-        return StatusCode(StatusCodes.Status201Created, result);
+        var result = await _billing.PostAsync("/api/invoices", body);
+        return new ContentResult
+        {
+            Content = result,
+            ContentType = "application/json",
+            StatusCode = StatusCodes.Status201Created
+        };
     }
 
     [HttpPost("{id:guid}/items")]
-    public async Task<IActionResult> AddItem(Guid id, [FromBody] object body)
+    public async Task<IActionResult> AddItem(Guid id, [FromBody] AddInvoiceItemDto body)
     {
         var result = await _billing.PostAsync($"/api/invoices/{id}/items", body);
         return Content(result, "application/json");

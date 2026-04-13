@@ -3,7 +3,7 @@ WORKDIR /app
 COPY BillingService.csproj .
 RUN dotnet restore
 COPY . .
-RUN dotnet publish -c Release -o /out --no-restore
+RUN dotnet publish -c Release -o /out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app

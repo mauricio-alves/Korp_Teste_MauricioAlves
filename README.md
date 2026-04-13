@@ -1,123 +1,84 @@
-# Korp Teste Tecnico - Sistema de Emissao de Notas Fiscais
+# Korp Note System | Technical Assessment
 
-Projeto desenvolvido como parte do processo seletivo para **Estagio de Desenvolvimento** na **Korp**.
+Bem-vindo ao **Korp Note System**, uma solução de faturamento atômico e gestão de produtos desenvolvida como parte do processo de avaliação técnica da **Korp**.
 
----
-
-## Sobre o Projeto
-
-Sistema fullstack de emissao de notas fiscais construido com arquitetura de microsservicos.
-O objetivo e gerenciar o ciclo completo: cadastro de produtos com controle de estoque, criacao de notas fiscais, e impressao com baixa automatica de saldo — com resiliencia real entre servicos.
-
-### Funcionalidades Implementadas
-
-- **CRUD de Produtos** — Cadastro, edicao, listagem e remocao de produtos com controle de saldo
-- **Gestao de Notas Fiscais** — Criacao de notas com multiplos itens e status rastreavel
-- **Impressao de Notas** — Fechamento da nota com debito automatico no estoque via HTTP
-- **Resiliencia (Polly)** — Retry (3x) + Circuit Breaker entre microsservicos
-- **Simulacao de Falha** — Endpoint dedicado para demonstrar o comportamento do circuit breaker
-- **IA Aplicada** — Assistente que sugere produtos para a nota via Google Gemini API
+Este projeto demonstra a implementação de um ecossistema full-stack moderno, focado em alta performance, segurança rigorosa e experiência do usuário premium.
 
 ---
 
-## Arquitetura
+## Arquitetura do Sistema
 
-```
-Angular :4200  -->  API Gateway :5000  -->  Inventory Service :5001  -->  PostgreSQL (inventory_db)
-                                       -->  Billing Service :5002   -->  PostgreSQL (billing_db)
-                    API Gateway :5000  -->  Google Gemini API
-```
+O sistema foi concebido sob a filosofia de microsserviços e responsabilidade única (SRP), garantindo escalabilidade e isolamento de falhas.
 
-Cada microsservico possui seu proprio banco de dados, respeitando a autonomia de dados da arquitetura de microsservicos.
-Veja o mapa completo de dependencias em [CODEBASE.md](./CODEBASE.md).
+```mermaid
+graph TD
+    User((Usuário)) --> Frontend[Angular 18 Frontend]
+    Frontend --> ApiGateway[API Gateway .NET 8]
 
----
+    subgraph Backend Services
+        ApiGateway --> BillingService[Billing Service]
+        ApiGateway --> InventoryService[Inventory Service]
+        ApiGateway --> KorpAI[Korp.AI - Gemini Integration]
+    end
 
-## Monorepo Structure
-
-```
-Korp_Teste_MauricioAlves/
-├── backend/    # 3 servicos C# .NET 8 + testes (ver backend/README.md)
-├── frontend/   # Angular 18 + Angular Material (ver frontend/README.md)
-├── docker/     # Scripts de inicializacao do banco
-└── .github/    # CI/CD com GitHub Actions
-```
-
-- [Backend README](./backend/README.md) — Detalhes tecnicos do C#, LINQ, Polly, Swagger
-- [Frontend README](./frontend/README.md) — Detalhes do Angular, RxJS, ciclos de vida, Material
-
----
-
-## Como Executar
-
-### Pre-requisitos
-
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8)
-- [Node.js 20+](https://nodejs.org/)
-- [Docker & Docker Compose](https://www.docker.com/)
-
-### 1. Banco de Dados
-
-```bash
-# Copiar variaveis de ambiente
-cp .env.example .env
-# Editar .env com sua senha do PostgreSQL
-
-# Subir PostgreSQL
-docker-compose up -d
-```
-
-### 2. Backend
-
-```bash
-cd backend
-
-# Inventory Service (terminal 1)
-cd InventoryService
-dotnet run
-
-# Billing Service (terminal 2)
-cd BillingService
-dotnet run
-
-# API Gateway (terminal 3)
-cd ApiGateway
-dotnet run
-```
-
-### 3. Frontend
-
-```bash
-cd frontend
-npm install
-npm start
-# Acesse http://localhost:4200
+    BillingService --> Database[(PostgreSQL / EF Core)]
+    InventoryService --> Database
 ```
 
 ---
 
-## Qualidade de Codigo
+## Documentação Especializada
 
-| Projeto                | Cobertura                       | Ferramenta       |
-| ---------------------- | ------------------------------- | ---------------- |
-| InventoryService.Tests | > 80% (Services + Repositories) | coverlet + xUnit |
-| BillingService.Tests   | > 80% (Services + Repositories) | coverlet + xUnit |
-| Frontend               | > 80% (Services + Interceptors) | Istanbul / lcov  |
+Para uma imersão técnica profunda em cada camada do sistema, consulte os guias dedicados:
 
-Praticas adotadas: **TDD**, **SOLID**, **Clean Architecture**, **Conventional Commits**, **CI/CD**.
+- **[Backend & Engenharia de Dados](./backend/README.md)**: Detalhes sobre a arquitetura de microsserviços, segurança (CSP), atomicidade de transações e infraestrutura Docker.
+- **[Frontend & UX/UI Pro Max](./frontend/README.md)**: Detalhes sobre a gestão de estado com Angular Signals, design system customizado e integração com Inteligência Artificial.
 
 ---
 
-## Stack Tecnologica
+## Como Executar (Quick Start)
 
-| Camada      | Tecnologia                                   |
-| ----------- | -------------------------------------------- |
-| Backend     | C# .NET 8, Entity Framework Core, PostgreSQL |
-| Resiliencia | Polly (Retry + Circuit Breaker)              |
-| IA          | Google Gemini API (free tier)                |
-| Frontend    | Angular 18, Angular Material, RxJS           |
-| Infra       | Docker, GitHub Actions                       |
+Para subir o ecossistema completo, siga os passos abaixo:
+
+1. **Backend (Microsserviços + DB)**:
+
+   ```bash
+   # Na raiz do projeto
+   docker-compose up --build
+   ```
+
+   _Isso iniciará o Gateway (5000), Inventory (5001), Billing (5002) e o PostgreSQL._
+
+2. **Frontend (Angular)**:
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
+   _O frontend estará disponível em `http://localhost:4200`._
 
 ---
 
-Desenvolvido por [Mauricio Alves](https://www.linkedin.com/in/mauricio-oliveira-alves/) — Candidato a Estagio de Desenvolvimento
+## Requisitos do Teste Técnico (Resumo)
+
+- [x] **Faturamento Atômico**: Garante que o estoque é debitado de forma consistente durante a impressão, com suporte a rollback automático em caso de falha.
+- [x] **State Management**: Uso de Signals no Angular para reatividade de alta performance.
+- [x] **Clean Code & SOLID**: Arquitetura baseada em Providers e serviços especializados.
+- [x] **Integração com IA**: "Korp.AI" utilizando Google Gemini para auxílio na montagem de notas.
+- [x] **Segurança**: Headers de segurança (CSP, HSTS condicional) e validação de concorrência.
+
+---
+
+## 📋 Próximos Passos (Backlog Técnico)
+
+Estes itens estão mapeados para garantir 100% de conformidade com os requisitos obrigatórios e opcionais do teste técnico:
+
+1.  **Relatório de Detalhamento Técnico (`TECH_REPORT.md`)**: Criação do documento obrigatório (Pág. 1 do PDF) respondendo às perguntas sobre Angular LifeCycles, RxJS, LINQ e tratamento de erros.
+2.  **Segurança de Estado (Business Logic)**: Impedir a adição ou remoção de itens em notas que já possuem o status `Closed` (pós-impressão).
+3.  **Feedback Visual (Toasts/Notificações)**: Implementar um sistema de notificações no frontend para fornecer feedback imediato de sucesso ou erro (exigência do teste).
+4.  **Concorrência Otimista (RowVersion)**: Implementar `Timestamp` no modelo de `Product` para gestão de conflitos de estoque.
+5.  **Idempotência Avançada**: Persistência de chaves de idempotência para garantir resiliência em falhas de rede.
+
+---
+
+**Desenvolvido com Antigravity AI**

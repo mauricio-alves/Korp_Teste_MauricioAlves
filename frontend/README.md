@@ -1,115 +1,73 @@
-# Frontend — Detalhamento Tecnico
+# Korp Note System | Frontend & UX/UI
 
-Aplicacao Angular 18+ com standalone components, Angular Material e RxJS.
-
----
-
-## Stack
-
-| Tecnologia       | Versao | Uso                         |
-| ---------------- | ------ | --------------------------- |
-| Angular          | 18+    | Framework principal         |
-| Angular Material | 18+    | Componentes de UI           |
-| Angular CDK      | 18+    | Skeleton Loaders, Overlays  |
-| RxJS             | 7.x    | Reatividade e chamadas HTTP |
-| TypeScript       | 5.x    | Type safety                 |
+O frontend do **Korp Note System** é uma aplicação **Angular 18** de alta performance, desenhada para ser intuitiva, rápida e visualmente impactante.
 
 ---
 
-## Gerenciamento de Dependencias (npm)
+## Reatividade com Angular Signals
+
+Este projeto abandona o gerenciamento de estado complexo e verboso em favor dos **Angular Signals**.
+
+- **InvoiceStateService**: Atua como o "Single Source of Truth" para o fluxo de faturamento.
+- **Computed State**: Totais e resumos financeiros são recalculados automaticamente via `computed()`, garantindo precisão sem overhead de processamento.
+- **Fine-grained Updates**: Apenas os elementos que realmente sofreram alteração são re-renderizados pelo Angular.
+
+---
+
+## Design System Customizado (Premium UI)
+
+Não utilizamos frameworks CSS genéricos. O sistema utiliza **Vanilla CSS** com uma arquitetura de tokens modernos:
+
+1. **Vibrant Dark Mode**: Baseado em tons de carvão e cinza-técnico com acentos em **Verde Ácido** e ciano.
+2. **Glassmorphism**: Uso de transparências e `backdrop-filter` para dar profundidade à interface.
+3. **Typography**: Foco em legibilidade com a fonte **Inter**, utilizando pesos variados para criar hierarquia visual clara.
+4. **Grid Layout**: Sistema de grid customizado para o painel de faturamento, separando a seleção de itens do checkout financeiro de forma elegante.
+
+---
+
+## Korp.AI Terminal
+
+A interface conta com um painel de IA integrado que se comporta como um terminal de diagnóstico:
+
+- **Prompt Contextual**: A IA conhece os produtos disponíveis no estoque.
+- **Sugestões Inteligentes**: Auxilia o operador a montar notas fiscais baseadas em descrições de linguagem natural.
+- **Segurança**: Interpolação de texto segura para evitar execução de scripts maliciosos injetados por LLMs.
+
+---
+
+## Componentização (SRP)
+
+O fluxo principal de faturamento foi decomposto em componentes especializados com responsabilidade única:
+
+- `ItemSelector`: Busca e seleção de SKUs.
+- `ItemsGrid`: Listagem reativa e remoção de itens.
+- `InvoiceSummary`: Resumo financeiro e gatilho de fechamento da nota.
+- `AiPanel`: Interface de conversa com o Gemini.
+
+---
+
+## Acessibilidade & Inclusão (A11y)
+
+O sistema segue padrões básicos de acessibilidade para garantir que operadores com diferentes necessidades possam utilizar a ferramenta:
+
+1.  **Semântica de Formulários**: Uso rigoroso de associações `label[for]` e `input[id]`.
+2.  **Operação via Teclado**: Fluxos de faturamento otimizados para navegação sequencial.
+3.  **Contraste Elevado**: O Dark Mode foi validado para garantir legibilidade agressiva (Brutalism Design).
+
+---
+
+## Como Executar
 
 ```bash
-npm install            # Instala todas as dependencias
-npm run start          # Servidor de desenvolvimento (:4200)
-npm run build          # Build de producao
-npm run test           # Testes com Karma/Jasmine
-npm run lint           # ESLint
-```
-
----
-
-## Ciclos de Vida Angular Utilizados
-
-| Lifecycle Hook  | Onde                                  | Para que                                                       |
-| --------------- | ------------------------------------- | -------------------------------------------------------------- |
-| `ngOnInit`      | Todos os componentes de lista/detalhe | Disparar chamada HTTP e carregar dados                         |
-| `ngOnDestroy`   | Componentes com subscriptions manuais | Cancelar subscriptions e evitar memory leaks                   |
-| `ngOnChanges`   | Componentes filho com `@Input`        | Reagir a mudancas de dados do componente pai                   |
-| `AfterViewInit` | Tabelas com MatSort/MatPaginator      | Inicializar diretivas Material que dependem do DOM renderizado |
-
----
-
-## RxJS — Operadores Utilizados
-
-```typescript
-// switchMap: encadeia chamadas (ex: confirmar produto antes de adicionar a nota)
-this.productService.getById(productId).pipe(
-  switchMap(product => this.invoiceService.addItem(invoiceId, { productId, quantity }))
-);
-
-// catchError: interceptor global de erros HTTP
-return next(req).pipe(
-  catchError((error: HttpErrorResponse) => {
-    this.handleError(error);
-    return throwError(() => error);
-  })
-);
-
-// BehaviorSubject: estado compartilhado entre componentes
-private productsSubject = new BehaviorSubject<Product[]>([]);
-products$ = this.productsSubject.asObservable();
-
-// debounceTime: filtro de busca com delay para evitar chamadas excessivas
-this.searchControl.valueChanges.pipe(
-  debounceTime(300),
-  distinctUntilChanged(),
-  switchMap(term => this.productService.search(term))
-);
-
-// takeUntilDestroyed: auto-unsubscribe (Angular 16+)
-this.productService.getAll().pipe(
-  takeUntilDestroyed(this.destroyRef)
-).subscribe(products => this.products = products);
-```
-
----
-
-## Tratamento de Erros Global
-
-**`error.interceptor.ts`** intercepta todos os erros HTTP e exibe feedback via MatSnackBar:
-
-| Status      | Mensagem exibida                                         |
-| ----------- | -------------------------------------------------------- |
-| 503         | "Servico temporariamente indisponivel. Tente novamente." |
-| 409         | "Saldo insuficiente para este produto."                  |
-| 422         | Mensagem de validacao vinda do backend                   |
-| 0 (network) | "Sem conexao com o servidor."                            |
-| 500         | "Erro interno no servidor. Por favor, tente mais tarde." |
-
----
-
-## Loading States
-
-- **Skeleton Loaders** (Angular CDK): usados em tabelas de produtos e notas durante o carregamento inicial
-- **MatProgressBar** (indeterminate): usado exclusivamente na acao de impressao de nota (acao pontual, nao carregamento de lista)
-
----
-
-## Como Rodar
-
-```bash
-# Pre-requisito: backend rodando (ver backend/README.md)
-
-cd frontend
+# Instalar dependências
 npm install
+
+# Iniciar ambiente de desenvolvimento
 npm start
-# Acesse http://localhost:4200
 ```
 
-## Rodar Testes
+Acesse em: `http://localhost:4200`
 
-```bash
-cd frontend
-npm test                                    # Modo watch
-npm run test -- --no-watch --code-coverage  # CI mode com coverage
-```
+---
+
+**Desenvolvido com Antigravity AI**

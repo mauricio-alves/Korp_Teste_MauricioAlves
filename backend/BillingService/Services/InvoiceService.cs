@@ -29,10 +29,31 @@ public class InvoiceService : IInvoiceService
         return ToDto(invoice);
     }
 
-    public async Task<InvoiceDto> CreateAsync()
+    public async Task<InvoiceDto> CreateAsync(CreateInvoiceDto dto)
     {
         var number = await _repository.GetNextNumberAsync();
         var invoice = new Invoice { Number = number };
+
+        if (dto.Items != null && dto.Items.Any())
+        {
+            foreach (var item in dto.Items)
+            {
+                if (item.Quantity <= 0)
+                    throw new ArgumentException("Quantity must be greater than zero for all items.");
+                if (item.ProductId == Guid.Empty)
+                    throw new ArgumentException("ProductId is required for all items.");
+            }
+
+            invoice.Items = dto.Items.Select(itemDto => new InvoiceItem
+            {
+                InvoiceId = invoice.Id,
+                ProductId = itemDto.ProductId,
+                ProductCode = itemDto.ProductCode,
+                ProductDescription = itemDto.ProductDescription,
+                Quantity = itemDto.Quantity
+            }).ToList();
+        }
+
         var created = await _repository.CreateAsync(invoice);
         return ToDto(created);
     }

@@ -1,0 +1,88 @@
+.page-header {
+  margin-bottom: 2rem;
+  .header-cluster {
+    .back-link {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      color: var(--k-gray-text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+      &:hover {
+        color: var(--k-acid-green);
+      }
+    }
+    h1 {
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+  }
+}
+
+.k-form {
+  max-width: 600px;
+  background-color: var(--k-onyx-mid);
+  padding: 3rem;
+  border: 1px solid var(--k-onyx-light);
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--k-gray-text);
+    }
+
+    .k-input {
+      width: 100%;
+      box-sizing: border-box;
+      background-color: var(--k-onyx-dark);
+      border: 1px solid var(--k-onyx-light);
+      padding: 1rem;
+      color: var(--k-white-core);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: var(--k-acid-green);
+        box-shadow: 0 0 0 1px var(--k-acid-green);
+      }
+
+      &.ng-invalid.ng-touched {
+        border-color: var(--k-crimson-error);
+      }
+    }
+  }
+
+  .form-actions {
+    margin-top: 3rem;
+  }
+}
+
+.k-btn-primary {
+  width: 100%;
+  background-color: var(--k-acid-green);
+  color: var(--k-onyx-dark);
+  border: none;
+  padding: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover:not(:disabled) {
+    background-color: var(--k-acid-green-hover);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

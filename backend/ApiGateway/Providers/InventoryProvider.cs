@@ -1,53 +1,21 @@
-using System.Text;
-using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace ApiGateway.Providers;
 
-public class InventoryProvider : IInventoryProvider
+public class InventoryProvider : BaseProvider, IInventoryProvider
 {
-    private readonly HttpClient _httpClient;
-
-    public InventoryProvider(IHttpClientFactory factory)
+    public InventoryProvider(IHttpClientFactory factory, ILogger<InventoryProvider> logger) 
+        : base(factory, "InventoryClient", logger)
     {
-        _httpClient = factory.CreateClient("InventoryClient");
     }
 
-    public async Task<string> GetAsync(string path)
-    {
-        var response = await _httpClient.GetAsync(path);
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
-    }
+    public Task<string> GetAsync(string path) => InternalGetAsync(path);
 
-    public async Task<string> PostAsync(string path, object body)
-    {
-        var content = Serialize(body);
-        var response = await _httpClient.PostAsync(path, content);
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
-    }
+    public Task<string> PostAsync(string path, object body) => InternalPostAsync(path, body);
 
-    public async Task<string> PutAsync(string path, object body)
-    {
-        var content = Serialize(body);
-        var response = await _httpClient.PutAsync(path, content);
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
-    }
+    public Task<string> PutAsync(string path, object body) => InternalPutWithResponseAsync(path, body);
 
-    public async Task DeleteAsync(string path)
-    {
-        var response = await _httpClient.DeleteAsync(path);
-        response.EnsureSuccessStatusCode();
-    }
+    public Task DeleteAsync(string path) => InternalDeleteAsync(path);
 
-    public async Task PatchAsync(string path, object body)
-    {
-        var content = Serialize(body);
-        var response = await _httpClient.PatchAsync(path, content);
-        response.EnsureSuccessStatusCode();
-    }
-
-    private static StringContent Serialize(object body) =>
-        new(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
+    public Task PatchAsync(string path, object body) => InternalPatchAsync(path, body);
 }

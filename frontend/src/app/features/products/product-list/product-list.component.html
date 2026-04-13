@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1>Catálogo de Produtos</h1>
+  <button class="k-btn-primary" routerLink="/products/new">Novo SKU</button>
+</div>
+
+<div class="table-container">
+  @if (loading) {
+  <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5]">
+    <div class="skeleton-cell w-20"></div>
+    <div class="skeleton-cell w-50"></div>
+    <div class="skeleton-cell w-10"></div>
+  </div>
+  } @else {
+  <table class="k-table">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Descrição</th>
+        <th>Saldo Atual</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (prod of products; track prod.id) {
+      <tr>
+        <td class="td-code">{{ prod.code }}</td>
+        <td>{{ prod.description }}</td>
+        <td class="td-balance">{{ prod.balance }} <span>UN</span></td>
+      </tr>
+      }
+      @empty {
+      <tr>
+        <td colspan="3" class="empty-state">O estoque central está vazio.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  }
+</div>

@@ -28,7 +28,8 @@ public class InvoiceServiceTests
         _repositoryMock.Setup(r => r.CreateAsync(It.IsAny<Invoice>()))
             .ReturnsAsync((Invoice i) => i);
 
-        var result = await _sut.CreateAsync();
+        var dto = new CreateInvoiceDto { Items = new List<AddInvoiceItemDto>() };
+        var result = await _sut.CreateAsync(dto);
 
         Assert.Equal(5, result.Number);
         Assert.Equal("Open", result.Status);
@@ -94,6 +95,34 @@ public class InvoiceServiceTests
 
         Assert.Equal("Closed", result.Status);
         _inventoryProviderMock.Verify(p => p.DebitBalanceAsync(productId, 5), Times.Once);
+    }
+
+    [Fact]
+    public async Task CreateAsync_WithInvalidQuantity_ThrowsArgumentException()
+    {
+        var dto = new CreateInvoiceDto
+        {
+            Items =
+            [
+                new AddInvoiceItemDto(Guid.NewGuid(), "P1", "D1", 0)
+            ]
+        };
+
+        await Assert.ThrowsAsync<ArgumentException>(() => _sut.CreateAsync(dto));
+    }
+
+    [Fact]
+    public async Task CreateAsync_WithEmptyProductId_ThrowsArgumentException()
+    {
+        var dto = new CreateInvoiceDto
+        {
+            Items =
+            [
+                new AddInvoiceItemDto(Guid.Empty, "P1", "D1", 1)
+            ]
+        };
+
+        await Assert.ThrowsAsync<ArgumentException>(() => _sut.CreateAsync(dto));
     }
 
     [Fact]
